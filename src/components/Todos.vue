@@ -3,11 +3,13 @@ import {ref,watch,computed} from 'vue'
 import { auth, fbdata, fbRef, dbRef } from '../utils/firebase_config'
 import { getDatabase, push, update, set, remove, onValue } from 'firebase/database'
 //import * as todoStore from '../stores/todo-simple-store'
-import { todos, todoTitle, todoSort, todoDone, todoOpen } from '../stores/todo-simple-store'
+//import { todos, todoTitle, todoSort } from '../stores/todo-simple-store'
+// import { todos, user } from '../stores/todo-simple-store'
 
-// const todos = ref([])
+const todos = ref([])
 // const todos = todoStore.todos
-
+const todoTitle = 'test'
+const todoSort = [...todos.value]
 const todo = ref()
 
 /*
@@ -115,7 +117,9 @@ async function onDropCompleted() {
     </ul>
 
     <div>
+<!--
       There are a total of {{ todos.length }} items, of which {{ todoOpen.length }} are still open and {{ todoDone.length }} are completed.
+-->
     </div>
 <!--
     <button @click="addTodo">Add Item</button>
