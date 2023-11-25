@@ -27,8 +27,8 @@ export default () => {
 
   // Computeds ...
   const todoSort = computed( () => [...state.todos].reverse() )
-  const todoDone = computed( () => [...state.todos].filter( t => t.completed ) )
-  const todoOpen = computed( () => [...state.todos].filter( t => !t.completed ) )
+  const todoDone = computed( () => [...todoSort.value].filter( t => t.completed ) )
+  const todoOpen = computed( () => [...todoSort.value].filter( t => !t.completed ) )
 
   // Methods ...
   function setUser(user) {
@@ -53,7 +53,7 @@ export default () => {
       completed: false,
       created_ts: Date.now()
     });
-    todo.value = null
+    // todo.value = null
   }
 
   async function updateTodo( key, data ) {

@@ -1,5 +1,9 @@
 @import './base.css';
 
+/*   These are directly from:
+    https://github.com/tastejs/todomvc/blob/gh-pages/examples/vanilla-es6/node_modules/todomvc-app-css/index.css
+*/
+
 html,
 body {
   margin: 0;
