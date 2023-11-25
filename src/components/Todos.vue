@@ -2,15 +2,22 @@
 import {ref,watch,computed} from 'vue'
 import { auth, fbdata, fbRef, dbRef } from '../utils/firebase_config'
 import { getDatabase, push, update, set, remove, onValue } from 'firebase/database'
+//import * as todoStore from '../stores/todo-simple-store'
+import { todos, todoTitle, todoSort, todoDone, todoOpen } from '../stores/todo-simple-store'
 
-const todos = ref([])
+// const todos = ref([])
+// const todos = todoStore.todos
+
 const todo = ref()
 
+/*
 const todoSort = computed( () => todos.value.reverse() )
 
 const todoDone = computed( () => todos.value.filter( t => t.completed ) )
 const todoOpen = computed( () => todos.value.filter( t => !t.completed ) )
+*/
 
+/*
 const refTodos = fbRef( getDatabase(), 'todos')
 onValue( refTodos, (snapshot) => {
   if ( snapshot && snapshot.forEach ) {
@@ -26,7 +33,9 @@ onValue( refTodos, (snapshot) => {
   }
 
 })
+*/
 
+/*
 function todoTitle(todo) {
   let rtn = `key: ${todo.key} `
   if ( todo.created_ts ) {
@@ -37,7 +46,9 @@ function todoTitle(todo) {
   }
   return rtn
 }
+*/
 
+/*
 async function addTodo( todoName = 'default item' ) {
   const newTodoRef = push( fbRef(getDatabase(),'todos') )
   await set( newTodoRef, {
@@ -47,6 +58,9 @@ async function addTodo( todoName = 'default item' ) {
   });
   todo.value = null
 }
+*/
+
+function addTodo() { }
 
 async function onTodoCheck(todo) {
   const updateTodo = {
@@ -60,7 +74,7 @@ async function onTodoCheck(todo) {
 
 async function onAddTodo() {
   console.log('update todo', todo.value )
-  await addTodo( todo.value )
+  addTodo( todo.value )
 }
 
 async function dropItem( key ) {
@@ -103,7 +117,9 @@ async function onDropCompleted() {
     <div>
       There are a total of {{ todos.length }} items, of which {{ todoOpen.length }} are still open and {{ todoDone.length }} are completed.
     </div>
+<!--
     <button @click="addTodo">Add Item</button>
+-->
     |
     <button @click="onDropCompleted">Drop Completed</button>
 

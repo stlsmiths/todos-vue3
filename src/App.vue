@@ -30,7 +30,10 @@ async function logout() {
   <div v-else>
     <MyComp :msg="appName"/>
     <a class="alink" @click="logout">Logout</a>
+    &nbsp; | &nbsp;
+    <RouterLink :to="{name: 'todo'}">Todo App</RouterLink>
 
+    <RouterView/>
   </div>
 </template>
 
@@ -41,7 +44,6 @@ header {
 }
 
 .alink {
-  color: cyan;
   text-decoration: underline;
   cursor: pointer;
 }
