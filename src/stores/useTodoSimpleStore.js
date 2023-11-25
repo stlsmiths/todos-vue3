@@ -1,6 +1,6 @@
 import {reactive, toRefs, readonly, computed} from 'vue'
 import {fbRef} from "@/utils/firebase_config";
-import {getDatabase, onValue, push, set} from "firebase/database";
+import {getDatabase, onValue, push, remove, set, update} from "firebase/database";
 
 const state = reactive({
   todos: [],
@@ -26,18 +26,15 @@ export default () => {
   })
 
   // Computeds ...
-/*
   const todoSort = computed( () => [...state.todos].reverse() )
-//  const todoSort = computed( () => [...todos].reverse() )
   const todoDone = computed( () => [...state.todos].filter( t => t.completed ) )
   const todoOpen = computed( () => [...state.todos].filter( t => !t.completed ) )
-*/
 
-/*
   // Methods ...
   function setUser(user) {
     state.user = {...user}
   }
+
   function todoTitle(todo) {
     let rtn = `key: ${todo.key} `
     if ( todo.created_ts ) {
@@ -49,28 +46,41 @@ export default () => {
     return rtn
   }
 
-  function addTodo( data ) {
-    const addData = {...data}
-    delete addData.key
+  async function addTodo( todoName = 'default todo name') {
     const newTodoRef = push( fbRef(getDatabase(),'todos') )
-    set( newTodoRef, {
-      ...addData,
+    await set( newTodoRef, {
+      name: todoName,
+      completed: false,
       created_ts: Date.now()
     });
+    todo.value = null
   }
 
   async function updateTodo( key, data ) {
-
+    await update( fbRef(getDatabase(),`todos/${key}`), {...data})
   }
 
   async function dropTodo( key ) {
-
+    const dropTodoRef = await remove( fbRef(getDatabase(),`todos/${key}`) )
+    console.log('dropped ', dropTodoRef)
   }
-*/
 
   return {
+    // state ...
     todos,
-    user
+    user,
+
+    // computeds ...
+    todoSort,
+    todoDone,
+    todoOpen,
+
+    // methods ...
+    todoTitle,
+    setUser,
+    addTodo,
+    updateTodo,
+    dropTodo
   }
 
 }

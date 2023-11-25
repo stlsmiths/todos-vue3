@@ -2,86 +2,30 @@
 import {ref,watch,computed} from 'vue'
 import { auth, fbdata, fbRef, dbRef } from '../utils/firebase_config'
 import { getDatabase, push, update, set, remove, onValue } from 'firebase/database'
-//import * as todoStore from '../stores/todo-simple-store'
-//import { todos, todoTitle, todoSort } from '../stores/todo-simple-store'
-// import { todos, user } from '../stores/todo-simple-store'
+import useTodoSimpleStore from '../stores/useTodoSimpleStore'
 
-const todos = ref([])
-// const todos = todoStore.todos
-const todoTitle = 'test'
-const todoSort = [...todos.value]
+const { todos, user, todoSort, todoOpen, todoDone,
+  todoTitle, addTodo, updateTodo, dropTodo
+} = useTodoSimpleStore()
+
 const todo = ref()
 
-/*
-const todoSort = computed( () => todos.value.reverse() )
-
-const todoDone = computed( () => todos.value.filter( t => t.completed ) )
-const todoOpen = computed( () => todos.value.filter( t => !t.completed ) )
-*/
-
-/*
-const refTodos = fbRef( getDatabase(), 'todos')
-onValue( refTodos, (snapshot) => {
-  if ( snapshot && snapshot.forEach ) {
-    const todosArray = []
-    snapshot.forEach( snap => {
-      // console.log('snap is', snap)
-      todosArray.push( { key: snap.key, ...snap.val() })
-    })
-    todos.value = [...todosArray]
-  } else {
-    console.log('snapshot was', snapshot )
-
-  }
-
-})
-*/
-
-/*
-function todoTitle(todo) {
-  let rtn = `key: ${todo.key} `
-  if ( todo.created_ts ) {
-    rtn += ` | created: ${todo.created_ts}`
-  }
-  if ( todo.updated_ts ) {
-    rtn += ` | updated: ${todo.updated_ts}`
-  }
-  return rtn
-}
-*/
-
-/*
-async function addTodo( todoName = 'default item' ) {
-  const newTodoRef = push( fbRef(getDatabase(),'todos') )
-  await set( newTodoRef, {
-    name: todoName,
-    completed: false,
-    created_ts: Date.now()
-  });
-  todo.value = null
-}
-*/
-
-function addTodo() { }
-
 async function onTodoCheck(todo) {
-  const updateTodo = {
+  const upData = {
     name: todo.name,
     completed: todo.completed,
     updated_ts: Date.now()
   }
-
-  update( fbRef(getDatabase(),`todos/${todo.key}`), {...updateTodo})
+  await updateTodo( todo.key, upData )
 }
 
 async function onAddTodo() {
   console.log('update todo', todo.value )
-  addTodo( todo.value )
+  await addTodo( todo.value )
 }
 
 async function dropItem( key ) {
-  const dropTodoRef = await remove( fbRef(getDatabase(),`todos/${key}`) )
-  console.log('dropped ', dropTodoRef)
+  await dropTodo( key )
 }
 
 async function onDropCompleted() {
@@ -117,15 +61,14 @@ async function onDropCompleted() {
     </ul>
 
     <div>
-<!--
       There are a total of {{ todos.length }} items, of which {{ todoOpen.length }} are still open and {{ todoDone.length }} are completed.
--->
     </div>
 <!--
     <button @click="addTodo">Add Item</button>
 -->
-    |
+    <br>
     <button @click="onDropCompleted">Drop Completed</button>
+    <br>
 
   </div>
 </template>

@@ -1,19 +1,20 @@
 <script setup>
 import {ref} from 'vue'
 import { app, auth, onAuthStateChanged } from './utils/firebase_config'
+import useTodoSimpleStore from "@/stores/useTodoSimpleStore";
 
-// import * as firebase from 'firebase'
-// import * as firebaseui from 'firebaseui'
+const { user, setUser } = useTodoSimpleStore()
 import MyComp from "@/components/MyComp.vue";
 import Auth from "@/components/Auth.vue";
 
-const user = ref()
+// const user = ref()
 const appName = ref( import.meta.env.VITE_APP_NAME )
 
 onAuthStateChanged( auth, (fbuser) => {
   console.log('auth user', fbuser)
   if ( fbuser ) {
-    user.value = fbuser
+    // user.value = fbuser
+    setUser( fbuser )
   }
 })
 
@@ -29,10 +30,10 @@ async function logout() {
   </div>
   <div v-else>
     <MyComp :msg="appName"/>
+    <br>
     <a class="alink" @click="logout">Logout</a>
     &nbsp; | &nbsp;
     <RouterLink :to="{name: 'todo'}">Todo App</RouterLink>
-
     <RouterView/>
   </div>
 </template>
