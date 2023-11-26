@@ -29,26 +29,29 @@ async function processLogin() {
   <div>
     <h2>User Login</h2>
     <div class="form-container">
-      <div class="item">
+      <div class="item form-row">
         <label for="uname">Username:</label>
         <input type="text" id="uname" v-model="uname" />
       </div>
-      <div class="item">
+      <div class="item form-row">
         <label for="upass">Password:</label>
-        <input type="password" id="upass" v-model="upass">
+        <input type="password" id="upass"
+               v-model="upass"
+               @keydown.enter="processLogin"
+        >
       </div>
-      <div class="item">
+      <div class="item form-row">
         <button class="login" :disabled="!isOk" @click="processLogin">Login</button>
-        <div class="error-message" v-if="emesg">
+      </div>
+      <div class="form-row error-message" v-if="emesg">
           Login Error: {{ emesg }}
-        </div>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.form-container {
+.form-containerx {
   height: 200px;
   display: flex;
   flex-direction: column;
@@ -56,7 +59,7 @@ async function processLogin() {
   flex-wrap: wrap;
 }
 
-.item {
+.itemx {
   height: 35px;
   box-sizing: border-box;
   max-width: 400px;
@@ -70,5 +73,32 @@ async function processLogin() {
   color: darkred;
   margin-top: 1.5rem;
 }
+
+.form-container {
+  max-width: 18rem;
+  padding: 0.8rem;
+  background-color: white;
+}
+
+.form-row {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.5rem;
+}
+
+.form-row > label {
+  flex: 1;
+  width: 5rem;
+}
+
+.form-row > input {
+  flex: 2;
+  width: 8rem;
+}
+
+.form-row .error-message {
+  flex: 2;
+}
+
 
 </style>
