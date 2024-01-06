@@ -7,10 +7,10 @@ import { getDatabase, ref } from 'firebase/database'
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FB_API,
+  apiKey: import.meta.env.VITE_FB_API_KEY,
   authDomain: import.meta.env.VITE_FB_AUTH_DOMAIN,
-  databaseURL: import.meta.env.VITE_FB_DB_URL,
-  projectId: import.meta.env.VITE_FB_PROJ_ID,
+  databaseURL: import.meta.env.VITE_FB_DATABASE_URL,
+  projectId: import.meta.env.VITE_FB_PROJECT_ID,
   appId: import.meta.env.VITE_FB_APP_ID
 };
 
